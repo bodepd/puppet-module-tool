@@ -93,6 +93,8 @@ Puppet::Face.define(:module, '0.0.1') do
     option '--version version', '-v version' do
       summary "Version to install (can be a requirement, eg '>= 1.0.3', defaults to latest version)"
     end
+    summary "Install a module (eg, 'user-modname') from a repository or file"
+    examples "puppet module install MODULE_NAME_OR_FILE [OPTIONS]"
     description <<-EOT
       Install a module release------------------------
 
@@ -118,8 +120,6 @@ Puppet::Face.define(:module, '0.0.1') do
       summary "Force overwrite of existing module, if any"
     end
     when_invoked do |name, options|
-      summary "Install a module (eg, 'user-modname') from a repository or file"
-      examples "puppet module install MODULE_NAME_OR_FILE [OPTIONS]"
       Puppet::Module::Tool::Applications::Installer.run(name, options)
     end
   end
@@ -157,9 +157,9 @@ Puppet::Face.define(:module, '0.0.1') do
   end
 
   action :changes do
+    summary "Show modified files in an installed module"
+    examples "puppet module changes [PATH_TO_MODULE]"
     when_invoked do |path, options|
-      summary "Show modified files in an installed module"
-      examples "puppet module changes [PATH_TO_MODULE]"
       Puppet::Module::Tool::Applications::Checksummer.run(find_module_root(path), options)
     end
   end
